@@ -1,5 +1,5 @@
+"use client"
 import Image from 'next/image';
-import Table from "@/components/table";
 import React, { useState, useEffect } from "react";
 
 interface Item {
@@ -12,7 +12,7 @@ interface Item {
 }
 
 export default function TempatSampah() {
-  const [dataProduk, setDataProduk] = useState([]);
+    const [dataProduk, setDataProduk] = useState([]);
     return (
         <main className="flex min-h-screen flex-col items-center justify-between bg-[#DCDA5E] relative">
           <div className="p-12 justify-start items-start ">
@@ -196,7 +196,7 @@ export default function TempatSampah() {
                   </button>
                 </div>
                 <div className="ml-20 mt-5 flex flex-justify-between gap-10">
-                <Table data={dataProduk} allowUpdateLaundry={true} allowDelete={true} />
+                
 </div>
 
                 </div>
