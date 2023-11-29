@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import table from 'next/table';
 
 export default function TempatSampah() {
     return (
@@ -90,32 +91,19 @@ export default function TempatSampah() {
                 </div>
 
                 <div className="ml-20 mt-5 flex flex-justify-between gap-10">
-                <table className="table-auto">
-                      <thead>
-                        <tr>
-                          <th>Song</th>
-                          <th>Artist</th>
-                          <th>Year</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                          <td>Malcolm Lockyer</td>
-                          <td>1961</td>
-                        </tr>
-                        <tr>
-                          <td>Witchy Woman</td>
-                          <td>The Eagles</td>
-                          <td>1972</td>
-                        </tr>
-                        <tr>
-                          <td>Shining Star</td>
-                          <td>Earth, Wind, and Fire</td>
-                          <td>1975</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <p className="text-black flex font-semibold text-[22px]">
+                    Tempat Sampah Organik
+                  </p>
+                  <button type="button" className="ml-7 flex items-center justify-center text-black bg-[#A5B9C8] hover:bg-[#8195A] focus:outline-none focus:ring-4 focus:ring-[#8195A] font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-[#8195A] dark:hover:bg-[#8195A] dark:focus:ring-[#8195A]">
+                  <img src="/tambah.png" aria-hidden="true" alt="Icon" className="w-5 h-5 mr-1" />Tambah
+                  </button>
+                  <p className=" ml-5 text-black flex font-semibold text-[22px]">
+                    Tempat Sampah Anorganik
+                  </p>
+                  <button type="button" className="ml-7 flex items-center justify-center text-black bg-[#A5B9C8] hover:bg-[#8195A] focus:outline-none focus:ring-4 focus:ring-[#8195A] font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-[#8195A] dark:hover:bg-[#8195A] dark:focus:ring-[#8195A]">
+                  <img src="/tambah.png" aria-hidden="true" alt="Icon" className="w-5 h-5 mr-1" />Tambah
+                  </button>
+
                 </div>
                 
                 </div>
