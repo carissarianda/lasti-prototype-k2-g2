@@ -20,4 +20,5 @@ model tempat_sampah {
   id        Int               @id @default(autoincrement())
   lokasi    String
   kepenuhan tingkat_kepenuhan
+  updatedAt DateTime          @updatedAt
 }
