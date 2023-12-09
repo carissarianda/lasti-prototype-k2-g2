@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import TableOrganik from "@/component/tableOrganik";
-import TableAnorganik from "@/component/tableAnorganik";
+import TableOrganik from "@/components/tableOrganik";
+import TableAnorganik from "@/components/tableAnorganik";
 
 interface Item {
   id: number;
