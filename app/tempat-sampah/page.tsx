@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import TableOrganik from "@/components/tableOrganik";
-import TableAnorganik from "@/components/tableAnorganik";
+import TableOrganik from "@/components/table-organik";
+import TableAnorganik from "@/components/table-anorganik";
+import ModalAddTS from "@/components/modal/add-tempat-sampah";
 
 interface Item {
   id: number;
@@ -13,71 +14,37 @@ interface Item {
   status: string;
 }
 
-const dataOrganik = [
-  {
-    Trash_Id: 1,
-    Lokasi: "Lantai 3",
-    Status: "Penuh",
-  },
-  {
-    Trash_Id: 2,
-    Lokasi: "Lantai 3",
-    Status: "Isi",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-];
-
-const dataAnorganik = [
-  {
-    Trash_Id: 1,
-    Lokasi: "Lantai 3",
-    Status: "Penuh",
-  },
-  {
-    Trash_Id: 2,
-    Lokasi: "Lantai 3",
-    Status: "Isi",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-  {
-    Trash_Id: 3,
-    Lokasi: "Lantai 3",
-    Status: "Kosong",
-  },
-];
-
 export default function TempatSampah() {
   const [dataProduk, setDataProduk] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const handleAddTempatSampah = ( ) => {
+    setIsAddModalOpen(true);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/tempat-sampah");
+        if (response.ok) {
+          const data = (await response.json()).data;
+          console.log(data)
+          setDataProduk(data);
+        } else {
+          window.alert("Failed to fetch data");
+        }
+      } catch (error) {
+        console.log(error)
+        window.alert("Error fetching data:" + error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-[#DCDA5E] relative">
+      <ModalAddTS isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}/>
       <div className="p-12 justify-start items-start ">
         <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-[#DCDA5E] h-full text-gray-600 transition-all duration-300 border-none sidebar">
           <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -304,6 +271,7 @@ export default function TempatSampah() {
                     Tempat Sampah Organik
                   </p>
                   <button
+                    onClick={handleAddTempatSampah}
                     type="button"
                     className="ml-20 flex text-black bg-[#A5B9C8] hover:bg-[#8195A] focus:outline-none focus:ring-4 focus:ring-[#8195A] font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-[#8195A] dark:hover:bg-[#8195A] dark:focus:ring-[#8195A]"
                   >
@@ -316,7 +284,7 @@ export default function TempatSampah() {
                     Tambah
                   </button>
                 </div>
-                <TableOrganik data={dataOrganik} />
+                <TableOrganik data={dataProduk} />
                 
               </div>
 
@@ -338,12 +306,15 @@ export default function TempatSampah() {
                     Tambah
                   </button>
                 </div>
-                <TableAnorganik data={dataAnorganik} />
+                <TableAnorganik data={dataProduk} />
               </div>
             </div>
           </div>
         </div>
       </div>
+      {isAddModalOpen && (
+        <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50" />
+      )}
     </main>
   );
 }

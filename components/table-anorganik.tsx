@@ -2,14 +2,15 @@
 
 import {useState} from "react"
 
-export default function TableOrganik(props: { data: any[] }) {
+export default function TableAnorganik(props: { data: any[] }) {
 const { data: InitialData } = props;
-  const titles = Object.keys(InitialData[0]);
-
-  //
-  const currencyIndexes = titles
-    .map((title, index) => (title.includes("total") ? index : undefined))
-    .filter((index) => index !== undefined);
+  let titles, currencyIndexes: (number | undefined)[];
+  if (InitialData && InitialData.length > 0) {
+    titles = Object.keys(InitialData[0]);
+    currencyIndexes = titles
+      .map((title, index) => (title.includes("total") ? index : undefined))
+      .filter((index) => index !== undefined);
+  }
 
   const padding = "px-2 py-2";
   const totalData = InitialData.length;
@@ -24,11 +25,11 @@ const { data: InitialData } = props;
   const maxPageData = Math.ceil(totalData / itemsPerPage);
 
   return (
-    <div className="rounded-lg border-black flex flex-col gap-4 shadow-lg">
-      <table className=" w-full text-center bg-white text-black">
-        <thead className="text-xl capitalize bg-white border-b-2 border-[#000000]">
+    <div className="shadow-xl rounded-xl bg-black">
+      <table className="w-full text-center bg-white text-black ">
+        <thead className="text-xl capitalize bg-white border-b-2 border-[#6C6C6C]">
           <tr>
-            {titles.map((item, idx) => (
+            {titles?.map((item, idx) => (
               <th
                 key={idx}
                 className={`px-4 py-2 text-[#8C8F96] font-semibold`}
@@ -52,18 +53,25 @@ const { data: InitialData } = props;
                   {idx === titles.length - 1 || idx === titles.length -2 ? ( // Assuming status is the last column
                     <button
                       className={`px-6 py-3 rounded capitalize ${
-                        val === 'berhasil' ? 'bg-[#F9BA42] rounded-full font-semibold' :
-                        val === 'diambil' ? 'bg-[#227B3D] rounded-full font-semibold text-white' :
-                        val === 'diproses' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
+                        val === 'Penuh' ? 'bg-[#F9BA42] rounded-full font-semibold' :
+                        val === 'Isi' ? 'bg-[#227B3D] rounded-full font-semibold' :
+                        val === 'Kosong' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
                         'bg-gray-500'
                       }`}
                     >
                       {val as string}
                     </button>
                   ) : (
+                    idx === 2 ? (
+                      <div className="flex items-center justify-center font-semibold">
+                        {toCurrency(item.total_nominal)}
+                      </div>
+                    ) : currencyIndexes.includes(idx) ? (
+                      toCurrency(val as number)
+                    ) : (
                       <p className="font-semibold">{val as string}</p>
                     )
-                  }
+                  )}
                 </td>
               ))}
               
@@ -89,7 +97,7 @@ const { data: InitialData } = props;
           )} */}
         </tbody>
       </table>
-      <div className="flex justify-center gap-4 items-center bg-white py-8">
+      <div className="flex justify-center gap-8 items-center bg-white py-8 ">
         <div className="flex justify-center">
           <button
             onClick={() => setCurrentPage(currentPage - 1)}
