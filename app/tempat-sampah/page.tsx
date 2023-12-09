@@ -46,7 +46,7 @@ export default function TempatSampah() {
     <main className="flex min-h-screen flex-col items-center justify-between bg-[#DCDA5E] relative">
       <ModalAddTS isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}/>
       <div className="p-12 justify-start items-start ">
-        <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-[#DCDA5E] h-full text-gray-600 transition-all duration-300 border-none sidebar">
+        <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-[#DCDA5E] h-[80vh] text-gray-600 transition-all duration-300 border-none sidebar">
           <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
             <ul className="flex flex-col ml-3 py-4 space-y-1">
               <div className="flex items-center justify-center mb-2">
@@ -172,16 +172,16 @@ export default function TempatSampah() {
       <div className="absolute h-screen bg-white w-4/5 rounded-l-[4rem] top-0 right-0">
         <div className=" items-start justify-start">
           <div className="h-full text-right">
-            <div className="mt-14 ml-20">
-              <p className="text-black flex font-semibold text-[28px]">
+            <div className="mt-12 ml-20">
+              <p className="text-black flex font-semibold text-[30px]">
                 Smart Trash Bin
               </p>
             </div>
 
-            <div className="ml-20 mt-5 flex flex-justify-between gap-10">
-              <div className="rounded-[20px] bg-[#A5B9C8] w-200 h-40 shadow-lg">
+            <div className="ml-20 mt-4 flex flex-justify-between gap-10">
+              <div className="rounded-[20px] bg-[#A5B9C8] w-200 h-36 shadow-lg">
                 <div className="flex flex-justify-between gap-10">
-                  <div className=" mt-3 ml-8 text-start items-center">
+                  <div className="mt-2 ml-8 text-start items-center">
                     <div className="flex items-center">
                       <p className=" text-black font-bold text-[50px]">75</p>
                     </div>
@@ -207,9 +207,9 @@ export default function TempatSampah() {
                   </div>
                 </div>
               </div>
-              <div className="rounded-[20px] bg-[#D9D9D9] w-200 h-40 shadow-lg">
+              <div className="rounded-[20px] bg-[#D9D9D9] w-200 h-36 shadow-lg">
                 <div className="flex flex-justify-between gap-10">
-                  <div className=" mt-3 ml-8 text-start items-center">
+                  <div className=" mt-2 ml-8 text-start items-center">
                     <div className="flex items-center">
                       <p className=" text-black font-bold text-[50px]">30</p>
                     </div>
@@ -235,9 +235,9 @@ export default function TempatSampah() {
                   </div>
                 </div>
               </div>
-              <div className="rounded-[20px] bg-[#DCE2E7] w-200 h-40 shadow-lg">
+              <div className="rounded-[20px] bg-[#DCE2E7] w-200 h-36 shadow-lg">
                 <div className="flex flex-justify-between gap-10">
-                  <div className=" mt-3 ml-8 text-start items-center">
+                  <div className=" mt-2 ml-8 text-start items-center">
                     <div className="flex items-center">
                       <p className=" text-black font-bold text-[50px]">45</p>
                     </div>
@@ -264,7 +264,7 @@ export default function TempatSampah() {
                 </div>
               </div>
             </div>
-            <div className="ml-20 mt-6 mr-10 flex flex-row justify-between text-black gap-8">
+            <div className="ml-20 mt-5 mr-10 flex flex-row justify-between text-black gap-8">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row justify-between">
                   <p className="text-black font-semibold text-[22px]">
