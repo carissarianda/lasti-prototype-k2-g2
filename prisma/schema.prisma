@@ -20,6 +20,7 @@ model TempatSampah {
   id        Int               @id @default(autoincrement())
   lokasi    String
   kepenuhan TingkatKepenuhan
+  isOrganic Boolean
   updatedAt DateTime          @updatedAt @default(now())
   logs      LogTempatSampah[]
 }

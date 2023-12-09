@@ -3,14 +3,16 @@ import { Dropdown } from "../dropdown";
 
 interface ModalAddTSProps {
   isOpen: boolean;
+  isOrganic: boolean;
   onClose: () => void;
 }
 
 const ModalAddTS = (props: ModalAddTSProps) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, isOrganic, onClose } = props;
   const [payload, setPayload] = useState({
     lokasi: "",
-    kepenuhan: "",
+    isOrganic: isOrganic,
+    kepenuhan: "kosong",
   });
 
   if (!isOpen) {
@@ -38,6 +40,8 @@ const ModalAddTS = (props: ModalAddTSProps) => {
       return;
     }
 
+    console.log(payload)
+
     fetch("/api/tempat-sampah", {
       method: "POST",
       headers: {
@@ -50,6 +54,7 @@ const ModalAddTS = (props: ModalAddTSProps) => {
         if (res.message === "success") {
           onClose();
           window.alert("Berhasil menambahkan tempat sampah");
+          window.location.reload();
         } else {
           window.alert(JSON.stringify(res.error));
         }
@@ -81,7 +86,7 @@ const ModalAddTS = (props: ModalAddTSProps) => {
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="id_user" className="text-xl font-bold text-black">
-                Lokasi Tempat Sampah
+                Tingkat Kepenuhan
               </label>
               <div>
                 <Dropdown elements={tingkatKepenuhan} type={2} />

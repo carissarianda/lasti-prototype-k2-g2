@@ -5,22 +5,18 @@ import TableOrganik from "@/components/table-organik";
 import TableAnorganik from "@/components/table-anorganik";
 import ModalAddTS from "@/components/modal/add-tempat-sampah";
 
-interface Item {
+interface TempatSampah {
   id: number;
-  nama: string;
-  harga: number;
-  gambar: string;
-  kategori: string;
-  status: string;
+  lokasi: string;
+  kepenuhan: string;
+  updatedAt: string;
+  isOrganic?: boolean;
 }
 
 export default function TempatSampah() {
-  const [dataProduk, setDataProduk] = useState([]);
+  const [dataTS, setDataTS] = useState<TempatSampah[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const handleAddTempatSampah = ( ) => {
-    setIsAddModalOpen(true);
-  };
+  const [isOrganic, setIsOrganic] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +24,7 @@ export default function TempatSampah() {
         const response = await fetch("/api/tempat-sampah");
         if (response.ok) {
           const data = (await response.json()).data;
-          console.log(data)
-          setDataProduk(data);
+          setDataTS(data);
         } else {
           window.alert("Failed to fetch data");
         }
@@ -43,8 +38,8 @@ export default function TempatSampah() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-[#DCDA5E] relative">
-      <ModalAddTS isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}/>
+    <main className="flex h-screen flex-col items-center justify-between bg-[#DCDA5E] relative">
+      <ModalAddTS isOpen={isAddModalOpen} isOrganic={isOrganic} onClose={() => setIsAddModalOpen(false)} />
       <div className="p-12 justify-start items-start ">
         <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-[#DCDA5E] h-[80vh] text-gray-600 transition-all duration-300 border-none sidebar">
           <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -271,7 +266,10 @@ export default function TempatSampah() {
                     Tempat Sampah Organik
                   </p>
                   <button
-                    onClick={handleAddTempatSampah}
+                    onClick={() => {
+                      setIsOrganic(true);
+                      setIsAddModalOpen(true);
+                    }}
                     type="button"
                     className="ml-20 flex text-black bg-[#A5B9C8] hover:bg-[#8195A] focus:outline-none focus:ring-4 focus:ring-[#8195A] font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-[#8195A] dark:hover:bg-[#8195A] dark:focus:ring-[#8195A]"
                   >
@@ -284,8 +282,8 @@ export default function TempatSampah() {
                     Tambah
                   </button>
                 </div>
-                <TableOrganik data={dataProduk} />
-                
+                <TableOrganik data={dataTS.filter(res => res.isOrganic)} />
+
               </div>
 
               <div className="flex flex-col gap-2">
@@ -294,6 +292,10 @@ export default function TempatSampah() {
                     Tempat Sampah Anorganik
                   </p>
                   <button
+                    onClick={() => {
+                      setIsOrganic(false);
+                      setIsAddModalOpen(true);
+                    }}
                     type="button"
                     className="ml-20 flex items-center justify-center text-black bg-[#A5B9C8] hover:bg-[#8195A] focus:outline-none focus:ring-4 focus:ring-[#8195A] font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-[#8195A] dark:hover:bg-[#8195A] dark:focus:ring-[#8195A]"
                   >
@@ -306,7 +308,7 @@ export default function TempatSampah() {
                     Tambah
                   </button>
                 </div>
-                <TableAnorganik data={dataProduk} />
+                <TableAnorganik data={dataTS.filter(res => !res.isOrganic)} />
               </div>
             </div>
           </div>
