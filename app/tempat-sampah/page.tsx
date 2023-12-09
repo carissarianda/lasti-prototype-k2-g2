@@ -195,8 +195,8 @@ export default function TempatSampah() {
       <div className="absolute h-screen bg-white w-4/5 rounded-l-[4rem] top-0 right-0">
         <div className=" items-start justify-start">
           <div className="h-full text-right">
-            <div className="mt-14 ml-20">
-              <p className="text-black flex font-semibold text-[28px]">
+            <div className="mt-12 ml-20">
+              <p className="text-black flex font-semibold text-[30px]">
                 Smart Trash Bin
               </p>
             </div>
