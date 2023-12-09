@@ -11,7 +11,6 @@ const ModalAddTS = (props: ModalAddTSProps) => {
   const { isOpen, isOrganic, onClose } = props;
   const [payload, setPayload] = useState({
     lokasi: "",
-    isOrganic: isOrganic,
     kepenuhan: "kosong",
   });
 
@@ -47,7 +46,7 @@ const ModalAddTS = (props: ModalAddTSProps) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({...payload, isOrganic})
     })
       .then((res) => res.json())
       .then((res) => {
