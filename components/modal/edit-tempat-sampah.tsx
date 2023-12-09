@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { Dropdown } from "../dropdown";
 
-interface ModalAddTSProps {
+interface ModalEditTSProps {
   isOpen: boolean;
-  isOrganic: boolean;
+  item: any;
   onClose: () => void;
 }
 
-const ModalAddTS = (props: ModalAddTSProps) => {
-  const { isOpen, isOrganic, onClose } = props;
+const ModalEditTS = ({ isOpen, item, onClose }: ModalEditTSProps) => {
   const [payload, setPayload] = useState({
-    lokasi: "",
-    kepenuhan: "kosong",
+    id: item.id,
+    lokasi: item.lokasi,
+    kepenuhan: item.kepenuhan,
+    isOrganic: item.isOrganic,
   });
 
   if (!isOpen) {
@@ -39,32 +40,45 @@ const ModalAddTS = (props: ModalAddTSProps) => {
       return;
     }
 
-    fetch("/api/tempat-sampah", {
-      method: "POST",
+    fetch(`/api/tempat-sampah/${payload.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...payload, isOrganic})
+      body: JSON.stringify(payload)
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.message === "success") {
-          onClose();
-          window.alert("Berhasil menambahkan tempat sampah");
-        } else {
+        if (res.error) {
+          console.log(res)
           window.alert(JSON.stringify(res.error));
+        } else {
+          onClose();
+          window.alert("Berhasil mengubah item");
         }
       });
   };
-
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center">
       <div className="bg-white w-full max-w-lg p-6 rounded-2xl shadow-xl">
         <div className="flex flex-col mb-4">
           <p className="text-2xl font-bold text-black flex justify-center mb-10" id="modal-title">
-            Tambah Tempat Sampah
+            Edit Tempat Sampah
           </p>
-          <div className="mt-4 flex flex-col gap-5">
+          <div className="mt-4 flex flex-col gap-5">\
+            <div className="flex flex-col gap-2">
+              <label htmlFor="id_user" className="text-xl font-bold text-black">
+                ID Tempat Sampah
+              </label>
+              <input
+                type="text"
+                name="id_user"
+                id="id_user"
+                className="text-md mb-5 py-3 px-5 border rounded-2xl bg-gray-200 border-black placeholder:text-gray-400"
+                value={payload.id}
+                disabled
+              />
+            </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="id_user" className="text-xl font-bold text-black">
                 Lokasi Tempat Sampah
@@ -74,7 +88,7 @@ const ModalAddTS = (props: ModalAddTSProps) => {
                 name="id_user"
                 id="id_user"
                 className="text-md mb-5 py-3 px-5 border rounded-2xl border-black placeholder:text-gray-400"
-                placeholder="Selasar Lantai 1"
+                value={payload.lokasi}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPayload({ ...payload, lokasi: e.target.value });
                 }}
@@ -85,7 +99,7 @@ const ModalAddTS = (props: ModalAddTSProps) => {
                 Tingkat Kepenuhan
               </label>
               <div>
-                <Dropdown elements={tingkatKepenuhan} type={2} />
+                <Dropdown elements={tingkatKepenuhan} type={2} index={tingkatKepenuhan.findIndex((element) => element.text.toLowerCase() === payload.kepenuhan)} />
               </div>
             </div>
           </div>
@@ -109,4 +123,4 @@ const ModalAddTS = (props: ModalAddTSProps) => {
   );
 };
 
-export default ModalAddTS;
+export default ModalEditTS;
