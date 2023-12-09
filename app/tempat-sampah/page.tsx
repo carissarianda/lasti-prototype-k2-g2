@@ -29,7 +29,6 @@ export default function TempatSampah() {
           window.alert("Failed to fetch data");
         }
       } catch (error) {
-        console.log(error)
         window.alert("Error fetching data:" + error);
       }
     };
