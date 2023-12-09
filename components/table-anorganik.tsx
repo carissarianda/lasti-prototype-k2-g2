@@ -75,11 +75,11 @@ export default function TableAnorganik(props: { data: any[] }) {
                   key={idx}
                   className={`${padding}`}
                 >
-                  {idx === titles.length - 1 ? ( // Assuming status is the last column
+                  {idx === titles.length - 3 ? ( // Assuming status is the last column
                     <button
-                      className={`px-6 py-2 w-3/5 rounded capitalize ${val === 'Penuh' ? 'bg-[#F9BA42] rounded-full font-semibold' :
-                        val === 'Isi' ? 'bg-[#227B3D] rounded-full font-semibold' :
-                          val === 'Kosong' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
+                      className={`px-6 py-2 w-full rounded capitalize ${val === 'Penuh' ? 'bg-[#F9BA42] rounded-full font-semibold' :
+                        val === 'terisi' ? 'bg-[#227B3D] rounded-full font-semibold' :
+                          val === 'kosong' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
                             'bg-gray-500'
                         }`}
                     >
@@ -90,20 +90,20 @@ export default function TableAnorganik(props: { data: any[] }) {
                   )}
                 </td>
               ))}
-              <td className="flex">
+              <td className="flex px-6">
                 <Image
                   src="/pencil.svg"
                   className="p-2 cursor-pointer"
-                  width={36}
-                  height={36}
+                  width={32}
+                  height={32}
                   alt={""}
                   onClick={() => openEditModal(item)}
                 />
                 <Image
                   src="/trash.svg"
                   className="p-2 cursor-pointer"
-                  width={36}
-                  height={36}
+                  width={32}
+                  height={32}
                   alt={""}
                   onClick={() => openDeleteModal(item)}
                 />

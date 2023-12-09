@@ -1,12 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { SetStateAction, useState } from "react"
+import Image from "next/image"
+import ModalEditTS from "./modal/edit-tempat-sampah";
+import ModalDeleteTS from "./modal/delete-tempat-sampah";
 
 export default function TableOrganik(props: { data: any[] }) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openEditModal = (item: SetStateAction<null>) => {
+    setSelectedItem(item);
+    setIsEditModalOpen(true);
+  };
+
+  const openDeleteModal = (item: SetStateAction<null>) => {
+    setSelectedItem(item);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleCloseModals = () => {
+    setSelectedItem(null);
+    setIsEditModalOpen(false);
+    setIsDeleteModalOpen(false);
+    window.location.reload();
+  }
+
   const { data: InitialData } = props;
-  let titles, totalData = 0;
+  let titles, currencyIndexes: (number | undefined)[], totalData = 0;
   if (InitialData && InitialData.length > 0) {
     titles = Object.keys(InitialData[0]);
+    currencyIndexes = titles
+      .map((title, index) => (title.includes("total") ? index : undefined))
+      .filter((index) => index !== undefined);
     totalData = InitialData.length;
   }
 
@@ -20,8 +47,10 @@ export default function TableOrganik(props: { data: any[] }) {
   const maxPageData = Math.ceil(totalData / itemsPerPage);
 
   return (
-    <div className="shadow-xl border-2 rounded-xl px-4 py-2 bg-white">
-      <table className="w-full text-center bg-white text-black">
+    <div className="shadow-xl rounded-lg border-2 px-4 py-2 bg-white">
+      {selectedItem && <ModalEditTS isOpen={isEditModalOpen} item={selectedItem} onClose={handleCloseModals} />}
+      {selectedItem && <ModalDeleteTS isOpen={isDeleteModalOpen} item={selectedItem} onClose={handleCloseModals} />}
+      <table className="w-full text-center bg-white text-black ">
         <thead className="text-md capitalize bg-white border-b-2 border-[#B7C7D2]">
           <tr>
             {titles?.map((item, idx) => (
@@ -32,25 +61,26 @@ export default function TableOrganik(props: { data: any[] }) {
                 {item.replaceAll("_", " ")}
               </th>
             ))}
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {currentPageData.map((item, index) => (
             <tr
               key={index + (currentPage - 1) * 5}
-              className="bg-white text-sm capitalize"
+              className="bg-white border-[#6C6C6C] text-sm capitalize"
             >
               {Object.values(item).map((val, idx) => (
                 <td
                   key={idx}
                   className={`${padding}`}
                 >
-                  {idx === titles.length - 1 ? ( // Assuming status is the last column
+                  {idx === titles.length - 3 ? ( // Assuming status is the last column
                     <button
-                      className={`px-6 py-2 w-3/5 rounded capitalize ${val === 'Penuh' ? 'bg-[#F9BA42] rounded-full font-semibold' :
-                          val === 'Isi' ? 'bg-[#227B3D] rounded-full font-semibold' :
-                            val === 'Kosong' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
-                              'bg-gray-500'
+                      className={`px-6 py-2 w-full rounded capitalize ${val === 'Penuh' ? 'bg-[#F9BA42] rounded-full font-semibold' :
+                        val === 'terisi' ? 'bg-[#227B3D] rounded-full font-semibold' :
+                          val === 'kosong' ? 'bg-[#D9D9D9] rounded-full font-semibold' :
+                            'bg-gray-500'
                         }`}
                     >
                       {val as string}
@@ -60,7 +90,24 @@ export default function TableOrganik(props: { data: any[] }) {
                   )}
                 </td>
               ))}
-
+              <td className="flex px-6">
+                <Image
+                  src="/pencil.svg"
+                  className="p-2 cursor-pointer"
+                  width={32}
+                  height={32}
+                  alt={""}
+                  onClick={() => openEditModal(item)}
+                />
+                <Image
+                  src="/trash.svg"
+                  className="p-2 cursor-pointer"
+                  width={32}
+                  height={32}
+                  alt={""}
+                  onClick={() => openDeleteModal(item)}
+                />
+              </td>
             </tr>
           ))}
           {/* {footer && (
