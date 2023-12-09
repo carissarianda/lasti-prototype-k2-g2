@@ -10,15 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum tingkat_kepenuhan {
+enum TingkatKepenuhan {
   penuh
   terisi
   kosong
 }
 
-model tempat_sampah {
+model TempatSampah {
   id        Int               @id @default(autoincrement())
   lokasi    String
-  kepenuhan tingkat_kepenuhan
-  updatedAt DateTime          @updatedAt
+  kepenuhan TingkatKepenuhan
+  updatedAt DateTime          @updatedAt @default(now())
+  logs      LogTempatSampah[]
+}
+
+model LogTempatSampah {
+  id           Int        
+  tempatSampah TempatSampah     @relation(fields: [id], references: [id], onDelete: Cascade)
+  kepenuhan    TingkatKepenuhan 
+  createdAt    DateTime         @default(now())
+
+  @@id([id, createdAt])
 }

@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export async function GET() {
   try {
-    const data = await prisma.tempat_sampah.findMany(
+    const data = await prisma.tempatSampah.findMany(
       {
         orderBy: {
           id: 'asc'
@@ -22,7 +22,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const payload = await req.json();
-    await prisma.tempat_sampah.create({data: payload});
+    await prisma.tempatSampah.create({data: payload});
     return Response.json({message: "success"})
   } catch (error) {
     return Response.json({error})
